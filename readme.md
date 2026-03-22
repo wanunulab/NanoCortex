@@ -1,0 +1,162 @@
+# NanoCortex
+**This is the official codebase for NanoCortex: A Unified Agentic System for Nanopore Sequencing**
+<img src="./logo.svg" alt="fig" width="300px" />
+
+
+<div align="center">
+
+
+[![Preprint](https://img.shields.io/badge/Preprint-bioRxiv-orange?logo=googlescholar)](https://www.biorxiv.org/)
+[![Documentation](https://img.shields.io/badge/docs-available-brightgreen?logo=readthedocs)](https://your-docs-link)
+[![License](https://img.shields.io/badge/license-TBD-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.9-blue.svg?logo=python)](https://www.python.org/downloads/release/python-390/)
+[![Agent](https://img.shields.io/badge/Agent-geminiadk-blueviolet?logo=google)](https://ai.google.dev/)
+
+</div>
+
+---
+
+## Overview
+
+We present **NanoCortex**, a unified autonomous agentic framework designed for end-to-end data processing which ranges from raw signal basecalling to biological interpretation.
+
+### Framework
+
+<div align="center">
+
+
+<img src="./framework_github.svg" alt="fig" width="1200px" />
+
+</div>
+
+---
+
+## Tool list
+
+The following table summarizes external tools and resources integrated in NanoCortex, their primary functions, their implementation within the framework (`AgentTool` vs `FunctionTool`), and links to their official repositories or resources.
+
+| Tool / Resource      | Primary Function(s) | Implementation   | Resource Link |
+|----------------------|---------------------|------------------|--------------|
+| Dorado               | Basecalling and modification detection (e.g., m5C, m6A, pseudouridine). | AgentTool | [https://github.com/nanoporetech/dorado](https://github.com/nanoporetech/dorado) |
+| Modkit               | Quantitative modification frequency reporting and data manipulation. | AgentTool | [https://github.com/nanoporetech/modkit](https://github.com/nanoporetech/modkit) |
+| Remora               | Signal-level analysis and visualization of raw nanopore data. | AgentTool | [https://github.com/nanoporetech/remora](https://github.com/nanoporetech/remora) |
+| StringTie2           | *De novo* transcriptome assembly and isoform quantification. | AgentTool | [https://github.com/skovaka/stringtie2](https://github.com/skovaka/stringtie2) |
+| FLAIR                | Isoform-level analysis, splicing dynamics, and fusion gene detection. | AgentTool | [https://github.com/flairnlp/flair](https://github.com/flairnlp/flair) |
+| RNA-FM               | Large-scale RNA foundation model for secondary structure prediction and embedding generation. Downstream modules include splice site prediction and support fine-tuning for various RNA tasks. | AgentTool | [https://github.com/ml4bio/RNA-FM](https://github.com/ml4bio/RNA-FM) |
+| NCBI BLAST           | Sequence similarity searching and iterative reference genome refinement. | FunctionTool | [https://blast.ncbi.nlm.nih.gov/Blast.cgi](https://blast.ncbi.nlm.nih.gov/Blast.cgi) |
+| GTEx Database        | Integration of physiological transcriptomic baselines for clinical/biological comparison. | AgentTool | [https://gtexportal.org/home/](https://gtexportal.org/home/) |
+| PubMed / PMC         | Automated literature retrieval for context-aware interpretation of results. | AgentTool | [https://pubmed.ncbi.nlm.nih.gov/](https://pubmed.ncbi.nlm.nih.gov/) |
+| MODOMICS             | Retrieval of curated RNA modification annotations and biochemical pathways. | AgentTool | [https://genesilico.pl/modomics/](https://genesilico.pl/modomics/) |
+| Google Search        | General knowledge discovery and retrieval of web-accessible resources. | AgentTool | [https://www.google.com](https://www.google.com) |
+| Custom R/Python Scripts Generation and Execution | Generation of code for bioinformatics tools, including samtools, minimap2, and visualization workflows (e.g., density plots, modification landscapes), enabled by autonomous self-correction, validation, and execution. | FunctionTool | [R: https://www.r-project.org/](https://www.r-project.org/)<br/>[Python: https://www.python.org/](https://www.python.org/)<br/>[samtools: https://github.com/samtools/samtools](https://github.com/samtools/samtools)<br/>[minimap2: https://github.com/lh3/minimap2](https://github.com/lh3/minimap2) |
+
+---
+
+## Installation
+
+> **Note:** Detailed installation instructions and binary releases will be made available upon publication.
+
+### Step 1: Set Up Environment
+
+For reproducibility and compatibility, we recommend creating a dedicated Conda environment for NanoCortex and its dependencies. To install the core Google ADK component, please refer to the official Conda-Forge feedstock: [google-adk-feedstock](https://github.com/conda-forge/google-adk-feedstock).
+
+```bash
+conda create -n adk_env
+conda activate adk_env
+conda install google-adk
+```
+
+### Step 2: Register for a Google Cloud Account and Obtain an API Key
+
+Certain key functionalities within NanoCortex require authenticated access to Google Cloud. You need to create a Google Cloud account and generate an API key. **Keep your API key strictly confidential—never share it publicly or commit it to version control.**
+
+1. Navigate to [Google Cloud Console](https://cloud.google.com/) and sign in, or create a Google account if you do not already have one.
+2. Set up a new project as needed, and enable the relevant services (for example, Vertex AI and ADK).
+3. Generate your API key by following the instructions at [Google Cloud Console – API Credentials](https://console.cloud.google.com/apis/credentials).
+4. Refer to the official Google tutorial for detailed, step-by-step guidance on agent workforce configuration: [Build Your First ADK Agent Workforce](https://cloud.google.com/blog/topics/developers-practitioners/build-your-first-adk-agent-workforce). Additional helpful documentation can be found at [AISTUDIO](https://aistudio.google.com/).
+5. Store your API key securely on your local machine. You will need to provide this key via configuration files or environment variables as described in later sections.
+
+> **Critical:** Your API key is private and should be treated as a sensitive credential. Never expose, publish, or upload your key in any public repository or third-party service.
+
+
+### Step 2: Install Singularity
+
+Follow the [official Singularity documentation](https://sylabs.io/guides/) to install Singularity on your system. *Skip this step if you already have Singularity installed.*
+
+### Step 3: Install NanoCortex Software
+
+Download the latest NanoCortex Singularity image and run the container, which comes with all dependencies pre-configured.
+> **Instructions for downloading and running the NanoCortex Singularity container will be provided upon public release.**
+
+*If third-party tools or additional dependencies are needed outside of the container, comprehensive setup guides will be available in the documentation.*
+
+
+## Quick start
+
+<!-- TODO: Replace with your actual CLI/API entry points and minimal runnable commands. -->
+
+### Quick start
+
+Below are four example use cases for the NanoCortex agent framework (HeLa WT vs. TRUB1 KO context). Prompts are templates—substitute your file paths, region coordinates, and folder names. Expected output is left blank for your own benchmarking.
+
+| Example | Prompt | Expected Output | Notes |
+|---------|--------|----------------|-------|
+| 1 | "You are given two pileup files for HeLa wild-type (WT) and TRUB1 knockout (KO): `[WT_pileup_path]` and `[KO_pileup_path]`. Compare them, identify sites downregulated in the KO relative to WT, and produce a sequence logo (9-mer) characterizing the motif at those downregulated KO sites. Output files should be saved to the current working directory." |  | Two pileup inputs; differential sites; 9-mer logo for KO downregulated loci. |
+| 2 | "For the motif associated with sites downregulated in TRUB1 KO: what is it, and what are its sequence or context preferences? Search the literature (e.g. Google Scholar) and summarize whether published mechanisms align with TRUB1 KO and RNA modification biology. Output any summary files or results to the current path." |  | Motif interpretation + literature; cross-check with TRUB1 KO. |
+| 3 | "Using the HeLa WT BAM at `[WT_bam_path]`, investigate unaligned reads: where might they come from? Extract or summarize representative sequences and help interpret them with BLAST (or an equivalent search). Output any files in the current working directory." |  | WT BAM; unaligned-read provenance; BLAST-oriented follow-up. |
+| 4 | "For region `[chr:start-end]` (or coordinates I specify), generate signal-level visualization comparing KO vs. WT. Use POD5 folders `[KO_pod5_dir]` and `[WT_pod5_dir]` together with the matching BAM files `[KO_bam_path]` and `[WT_bam_path]`. Output the resulting visualization to the current path." |  | User-defined locus; two POD5 dirs + paired KO/WT BAMs. |
+
+> **Note:** All output files generated by these prompts should be saved to the current working directory. Fill in other columns as you test—this allows flexible benchmarking and detailed record-keeping as you develop or extend NanoCortex.
+
+---
+
+## Documentation
+
+
+- **Paper / preprint:** _[Title and venue — add link]_  
+- **Extended documentation:** _[URL or “see `docs/`”]_
+
+---
+
+## Citation
+
+If you use NanoCortex in your research, please cite:
+
+> **[Author et al.]** _[Full paper title]_. _[Venue, year]_. _[DOI or arXiv ID]_
+
+BibTeX:
+
+```bibtex
+@article{nanocortex2025,
+  title   = {[Full Paper Title]},
+  author  = {[Author List]},
+  journal = {[Journal or arXiv]},
+  year    = {2025},
+  doi     = {[DOI if available]}
+}
+```
+
+_(Replace the bracketed fields with the final bibliographic record.)_
+
+---
+
+## License
+
+<!-- Specify license, e.g. MIT, Apache-2.0, or “All rights reserved” for pre-release. -->
+
+_[License name and short terms, or “See LICENSE file.”]_
+
+---
+
+## Acknowledgments
+
+<!-- Funding, compute, datasets, or upstream tools. -->
+
+---
+
+## Contact
+
+<!-- Corresponding author email or issue tracker for software questions. -->
+
+- **Issues:** _[GitHub Issues or contact xia.qini@northeastern.edu]_  
+- **Correspondence:** _[Meini Wanunu & Sara H. Rouhanifard, affiliation, wanunu@neu.edu or s.rouhanifard@northeastern.edu]_
