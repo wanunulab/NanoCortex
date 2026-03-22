@@ -8,7 +8,7 @@ NanoCortex aims to bridge fragmented nanopore software ecosystems through automa
 
 We welcome contributions from the community and hope NanoCortex will serve as a foundation for the next generation of intelligent nanopore analysis.
 
-<img src="./figs/nanocortext_logo.svg" alt="fig" width="800px" />
+<img src="./figs/logo.svg" alt="fig" width="300px" />
 
 
 <div align="center">
@@ -93,14 +93,25 @@ Follow the [official Singularity documentation](https://sylabs.io/guides/) to in
 
 ### Step 3: Install NanoCortex Software
 
-To build the NanoCortex Singularity image, first clone the GitHub repository if you have not already done so. Then, change into the repository's `singularity` directory and run the following command to build the container:
+To build the NanoCortex Singularity image, first clone the GitHub repository if you have not already done so. Next, navigate to the repository’s `singularity` directory and execute the following command to build the container:
 
 ```bash
 cd NanoCortex/singularity
 singularity build bot.sif bot.def
 ```
 
-This will create a `bot.sif` image containing all required dependencies and software components as defined in `bot.def`. Once built, you can execute and interact with NanoCortex directly within this container.
+This will generate a `bot.sif` image encompassing all required dependencies and software components as specified in `bot.def`. Once the image is built, you can execute and interact with NanoCortex directly within this container.
+
+**Validation:**  
+To confirm that Singularity and the necessary tools have been installed successfully, run the following command:
+
+```bash
+singularity exec bot.sif modkit --help
+```
+
+If the command returns the Modkit help information without error, your installation is successful and the environment is fully operational.
+
+
 
 > **Note:** Ensure you have appropriate permissions and Singularity installed before running the build command. For detailed usage instructions and information on running the container, please refer to the official documentation.
 
