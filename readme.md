@@ -1,6 +1,6 @@
 # NanoCortex
 **This is the official codebase for NanoCortex: A Unified Agentic System for Nanopore Sequencing**
-<img src="./logo.svg" alt="fig" width="300px" />
+<img src="../figs/logo.svg" alt="fig" width="300px" />
 
 
 <div align="center">
