@@ -8,7 +8,7 @@ NanoCortex aims to bridge fragmented nanopore software ecosystems through automa
 
 We welcome contributions from the community and hope NanoCortex will serve as a foundation for the next generation of intelligent nanopore analysis.
 
-<img src="./figs/logo.svg" alt="fig" width="300px" />
+<img src="./figs/logo.svg" alt="fig" width="700px" />
 
 
 <div align="center">
