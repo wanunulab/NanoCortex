@@ -93,10 +93,18 @@ Follow the [official Singularity documentation](https://sylabs.io/guides/) to in
 
 ### Step 3: Install NanoCortex Software
 
-Download the latest NanoCortex Singularity image and run the container, which comes with all dependencies pre-configured.
-> **Instructions for downloading and running the NanoCortex Singularity container will be provided upon public release.**
+To build the NanoCortex Singularity image, first clone the GitHub repository if you have not already done so. Then, change into the repository's `singularity` directory and run the following command to build the container:
 
-*If third-party tools or additional dependencies are needed outside of the container, comprehensive setup guides will be available in the documentation.*
+```bash
+cd NanoCortex/singularity
+singularity build bot.sif bot.def
+```
+
+This will create a `bot.sif` image containing all required dependencies and software components as defined in `bot.def`. Once built, you can execute and interact with NanoCortex directly within this container.
+
+> **Note:** Ensure you have appropriate permissions and Singularity installed before running the build command. For detailed usage instructions and information on running the container, please refer to the official documentation.
+
+*If additional third-party tools or dependencies not encapsulated in the container are required, you will find comprehensive setup and usage guides in the project documentation and supplementary materials.*
 
 
 ## Quick start
