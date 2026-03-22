@@ -25,7 +25,7 @@ We present **NanoCortex**, a unified autonomous agentic framework designed for e
 <div align="center">
 
 
-<img src="./framework_github.svg" alt="fig" width="1200px" />
+<img src="./figs/framework_github.svg" alt="fig" width="1200px" />
 
 </div>
 
