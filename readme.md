@@ -26,7 +26,7 @@ We welcome contributions from the community and hope NanoCortex will serve as a 
 
 ## Overview
 
-We present **NanoCortex**, a unified autonomous agentic framework designed for end-to-end data processing which ranges from raw signal basecalling to biological interpretation.
+**NanoCortex** is a unified autonomous agentic framework designed for end-to-end data processing which ranges from raw signal basecalling to biological interpretation.
 
 ### Framework
 
