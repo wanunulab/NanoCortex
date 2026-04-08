@@ -87,11 +87,11 @@ Certain key functionalities within NanoCortex require authenticated access to Go
 > **Critical:** Your API key is private and should be treated as a sensitive credential. Never expose, publish, or upload your key in any public repository or third-party service.
 
 
-### Step 2: Install Singularity
+### Step 3: Install Singularity
 
 Follow the [official Singularity documentation](https://sylabs.io/guides/) to install Singularity on your system. *Skip this step if you already have Singularity installed.*
 
-### Step 3: Install NanoCortex Software
+### Step 4: Install NanoCortex Software
 
 To build the NanoCortex Singularity image, first clone the GitHub repository if you have not already done so. Next, navigate to the repository’s `singularity` directory and execute the following command to build the container:
 
