@@ -1,4 +1,4 @@
-# NanoCortex
+# NanoCortex 
 **Welcome to NanoCortex!**
 **This is the official codebase for NanoCortex: A Unified Agentic System for Nanopore Sequencing**
 
