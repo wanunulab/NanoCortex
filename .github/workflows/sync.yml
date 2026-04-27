@@ -17,7 +17,8 @@ jobs:
       - name: Push to Lab
         run: |
           #
-          REMOTE_URL="https://x-access-token:${{ secrets.SYNC_TOKEN }}@github.com/wanunulab/${{ github.event.repository.name }}.git"
+
+          REMOTE_URL="https://x-access-token:${{ secrets.SYNC_TOKEN }}@github.com/wanunulab/NanoCortex.git"
           
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
