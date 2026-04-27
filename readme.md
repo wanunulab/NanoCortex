@@ -33,7 +33,7 @@ We welcome contributions from the community and hope NanoCortex will serve as a 
 <div align="center">
 
 
-<img src="./figs/framework_github.svg" alt="fig" width="1200px" />
+<img src="./figs/framework.svg" alt="fig" width="1200px" />
 
 </div>
 
