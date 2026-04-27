@@ -15,12 +15,12 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+
       - name: Push to Lab
         run: |
-          # 1. 配置身份
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
           
-          # 2. 核心修正：使用 Token 强制推送
-          # 我们把推送命令写得更健壮一些
-          git push --force "https://x-access-token:${{ secrets.SYNC_TOKEN }}@github.com/wanunulab/NanoCortex.git" main:main
+          # 直接把 Token 写在推送命令里，并增加 --force-with-lease 以外的强力模式
+          # 确保这里的 SYNC_TOKEN 依然有效
+          git push --force "https://meansy0:${{ secrets.SYNC_TOKEN }}@github.com/wanunulab/NanoCortex.git" main:main
