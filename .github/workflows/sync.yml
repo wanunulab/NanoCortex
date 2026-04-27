@@ -17,12 +17,13 @@ jobs:
 
       - name: Push to Lab
         run: |
-          # 1. 配置身份
+          # 1. 配置身份（让 Commit 记录挂在 meansy0 名下）
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
           
-          # 2. 定义地址 (注意这里直接写死仓库名 NanoCortex)
+          # 2. 定义变量
+          # 注意：这里直接写死仓库名 NanoCortex
           REMOTE_URL="https://x-access-token:${{ secrets.SYNC_TOKEN }}@github.com/wanunulab/NanoCortex.git"
           
-          # 3. 执行推送 (这行必须在地址定义之后)
+          # 3. 执行推送（确保这一行在定义变量之后！）
           git push --force "$REMOTE_URL" main:main
