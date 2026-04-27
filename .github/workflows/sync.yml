@@ -17,12 +17,16 @@ jobs:
       - name: Push to Lab
         run: |
           #
-
-          REMOTE_URL="https://x-access-token:${{ secrets.SYNC_TOKEN }}@github.com/wanunulab/NanoCortex.git"
-          
+          git push --force "$REMOTE_URL" main:main
+      
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
           
-          # 
-          # 
+          # 直接写死地址
+          REMOTE_URL="https://x-access-token:${{ secrets.SYNC_TOKEN }}@github.com/wanunulab/NanoCortex.git"
+          
+          # 打印一下，看看地址对不对（放心，Token 会被 GitHub 自动打码）
+          echo "Syncing to $REMOTE_URL"
+          
+          # 执行推送
           git push --force "$REMOTE_URL" main:main
