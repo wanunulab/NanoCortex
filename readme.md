@@ -1,6 +1,6 @@
 # NanoCortex
 **Welcome to NanoCortex!**
-**This is the official codebase for NanoCortex: A Unified Agentic System for Nanopore Sequencing**
+**This is the official codebase for NanoCortex: A Unified Agentic System for Nanopore Sequencing Analysis**
 
 We are dedicated to advancing the nanopore sequencing field by building intelligent, agent-driven tools that simplify analysis, improve reproducibility, and accelerate biological discovery.  
 
