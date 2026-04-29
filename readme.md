@@ -186,5 +186,5 @@ _[License name and short terms, or “See LICENSE file.”]_
 
 <!-- Corresponding author email or issue tracker for software questions. -->
 
-- **Issues:** _[GitHub Issues or contact xia.qini@northeastern.edu]_  
+- **Issues:** _[GitHub Issues or contact xia.qini@northeastern.edu or princeyuansql@gmail.com]_  
 - **Correspondence:** _[Meini Wanunu & Sara H. Rouhanifard, affiliation, wanunu@neu.edu or s.rouhanifard@northeastern.edu]_
