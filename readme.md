@@ -16,7 +16,7 @@ We welcome contributions from the community and hope NanoCortex will serve as a 
 
 [![Preprint](https://img.shields.io/badge/Preprint-bioRxiv-orange?logo=googlescholar)](https://www.biorxiv.org/)
 [![Documentation](https://img.shields.io/badge/docs-available-brightgreen?logo=readthedocs)](https://your-docs-link)
-[![License](https://img.shields.io/badge/license-TBD-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.9-blue.svg?logo=python)](https://www.python.org/downloads/release/python-390/)
 [![Agent](https://img.shields.io/badge/Agent-geminiadk-blueviolet?logo=google)](https://ai.google.dev/)
 
