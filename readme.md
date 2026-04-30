@@ -147,12 +147,12 @@ If you use NanoCortex or any components of this ecosystem in your research, plea
 BibTeX:
 
 ```bibtex
-@article{nanocortex2025,
-  title   = {[Full Paper Title]},
-  author  = {[Author List]},
-  journal = {[Journal or arXiv]},
-  year    = {2025},
-  doi     = {[DOI if available]}
+@article{nanocortex2026,
+  title   = {[NanoCortex: A Unified Agentic System for Nanopore Sequencing Analysis]},
+  author  = {[Qini Xia, Ziyuan Wang, Mina Shokoufandeh, Sara H. Rouhanifard, Meni Wanunu]},
+  journal = {[bioarXiv]},
+  year    = {2026},
+  doi     = {[DOI]}
 }
 ```
 
