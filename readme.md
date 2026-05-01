@@ -82,7 +82,7 @@ Certain key functionalities within NanoCortex require authenticated access to Go
 2. Set up a new project as needed, and enable the relevant services (for example, Vertex AI and ADK).
 3. Generate your API key by following the instructions at [Google Cloud Console – API Credentials](https://console.cloud.google.com/apis/credentials).
 4. Refer to the official Google tutorial for detailed, step-by-step guidance on agent workforce configuration: [Build Your First ADK Agent Workforce](https://cloud.google.com/blog/topics/developers-practitioners/build-your-first-adk-agent-workforce). Additional helpful documentation can be found at [AISTUDIO](https://aistudio.google.com/).
-5. Store your API key securely on your local machine. You will need to provide this key via configuration files or environment variables as described in later sections.
+5. Store your API key securely on your local machine. And please put the API key into nano_plus/.env
 
 > **Critical:** Your API key is private and should be treated as a sensitive credential. Never expose, publish, or upload your key in any public repository or third-party service.
 
