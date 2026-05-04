@@ -112,10 +112,26 @@ singularity exec bot.sif modkit --help
 If the command returns the Modkit help information without error, your installation is successful and the environment is fully operational.
 
 
-
 > **Note:** Ensure you have appropriate permissions and Singularity installed before running the build command. For detailed usage instructions and information on running the container, please refer to the official documentation.
 
 *If additional third-party tools or dependencies not encapsulated in the container are required, you will find comprehensive setup and usage guides in the project documentation and supplementary materials.*
+
+
+> **Note:** We strongly recommend downloading the pre-built Singularity image instead of building it locally.
+👉 Download here: (xxx link)
+The provided bot.sif image already includes all required dependencies and has been tested for stability. Using it allows you to:
+
+Skip Step 3 (environment setup) && Skip Step 4 (container build)
+Avoid common HPC issues (e.g., network restrictions, failed apt-get, dependency conflicts)
+
+### Step 5: start to use NanoCortex
+
+```bash
+cd ../nanoporePlus
+adk web --host 0.0.0.0 --port 8000
+```
+And open http://localhost:8000 directly. Then choose ``nano_plus`` folder in top right corner.
+Now you can start to use NanoCortex!
 
 
 ## Quick start
