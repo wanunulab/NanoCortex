@@ -71,7 +71,7 @@ For reproducibility and compatibility, we recommend creating a dedicated Conda e
 ```bash
 conda create -n adk_env
 conda activate adk_env
-conda install google-adk
+pip install google-adk==1.22.1
 ```
 
 ### Step 2: Register for a Google Cloud Account and Obtain an API Key
