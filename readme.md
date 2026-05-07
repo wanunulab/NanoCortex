@@ -180,7 +180,7 @@ _(Replace the bracketed fields with the final bibliographic record.)_
 
 ## License
 
-MIT License — see [LICENSE](LICENSE) for details.
+MIT License — see [LICENSE](LICENSE.txt) for details.
 
 ## Contact
 
