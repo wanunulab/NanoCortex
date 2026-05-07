@@ -130,7 +130,7 @@ Avoid common HPC issues (e.g., network restrictions, failed apt-get, dependency 
 cd ../nanoporePlus
 adk web --host 0.0.0.0 --port 8000
 ```
-And open http://localhost:8000 directly. Then choose ``nano_plus`` folder in top right corner.
+And open http://localhost:8000 directly. Then choose ``nano_plus`` folder in top left corner.
 Now you can start to use NanoCortex!
 
 
