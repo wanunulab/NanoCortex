@@ -71,7 +71,10 @@ For reproducibility and compatibility, we recommend creating a dedicated Conda e
 ```bash
 conda create -n adk_env
 conda activate adk_env
-pip install google-adk==1.22.1
+pip install \
+    google-adk==1.22.1 \
+    pandas==3.0.1 \
+    scipy==1.17.1
 ```
 
 ### Step 2: Register for a Google Cloud Account and Obtain an API Key
