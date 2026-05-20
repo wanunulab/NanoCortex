@@ -171,7 +171,6 @@ BibTeX:
 }
 ```
 
-_(Replace the bracketed fields with the final bibliographic record.)_
 
 ---
 
@@ -186,4 +185,4 @@ MIT License — see [LICENSE](LICENSE.txt) for details.
 <!-- Corresponding author email or issue tracker for software questions. -->
 
 - **Issues:** _[GitHub Issues or contact qinixia77@gmail.com or princeyuansql@gmail.com]_  
-- **Correspondence:** _[Meini Wanunu & Sara H. Rouhanifard, affiliation, wanunu@neu.edu or s.rouhanifard@northeastern.edu]_
+- **Correspondence:** _[Meini Wanunu & Sara H. Rouhanifard, Northeastern University, wanunu@neu.edu or s.rouhanifard@northeastern.edu]_
