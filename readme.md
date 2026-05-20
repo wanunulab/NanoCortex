@@ -63,6 +63,7 @@ The following table summarizes external tools and resources integrated in NanoCo
 ## Installation
 
 > **Note:** Detailed installation instructions and binary releases will be made available upon publication.
+> **Note:** We highly recommend to save your codes in your folder each time by texting Nanocortex, that would helpful for saving tokens!
 
 ### Step 1: Set Up Environment
 
