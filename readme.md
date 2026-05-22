@@ -168,10 +168,10 @@ BibTeX:
   author  = {[Qini Xia, Ziyuan Wang, Mina Shokoufandeh, Sara H. Rouhanifard, Meni Wanunu]},
   journal = {[bioarXiv]},
   year    = {2026},
-  doi     = {[DOI]}
+  doi     = {[[DOI](https://doi.org/10.64898/2026.05.19.726254]}
 }
 ```
-
+our paper link is in: https://www.biorxiv.org/content/10.64898/2026.05.19.726254v1
 
 ---
 
