@@ -91,28 +91,27 @@ Certain key functionalities within NanoCortex require authenticated access to Go
 > **Critical:** Your API key is private and should be treated as a sensitive credential. Never expose, publish, or upload your key in any public repository or third-party service.
 
 
+### Step 3: Downlad Github files
+pip/gitclone whatever you like to download the the whole folder in our github link. 
+
 ### Step 3: Install Singularity
 
-Follow the [official Singularity documentation](https://sylabs.io/guides/) to install Singularity on your system. *Skip this step if you already have Singularity installed.*
+Please follow the [official Singularity documentation](https://docs.sylabs.io/guides/3.0/user-guide/) to install Singularity on your system.
 
-### Step 4: Install NanoCortex Software
+We recommend using the pre-built Singularity image provided below: 👉 [NanoCortex pre-built Singularity](https://huggingface.co/qinixia/NanoCortex-singularity/blob/main/singularity/bot.sif) and skip this step! Click this link and download files. And we suggest using cluster/HPC/... as the files are so big. And please download "bot.sif" to NanoCortex/singularity (the same directory as "bot.def")
 
-To build the NanoCortex Singularity image, first clone the GitHub repository if you have not already done so. Next, navigate to the repository’s `singularity` directory and execute the following command to build the container:
-
+*Skip this step if you already have downloaded bot.sif we provided in huggingface.*
 ```bash
 cd NanoCortex/singularity
 singularity build bot.sif bot.def
 ```
-
 This will generate a `bot.sif` image encompassing all required dependencies and software components as specified in `bot.def`. Once the image is built, you can execute and interact with NanoCortex directly within this container.
 
 **Validation:**  
 To confirm that Singularity and the necessary tools have been installed successfully, run the following command:
-
 ```bash
 singularity exec bot.sif modkit --help
 ```
-
 If the command returns the Modkit help information without error, your installation is successful and the environment is fully operational.
 
 
@@ -120,9 +119,7 @@ If the command returns the Modkit help information without error, your installat
 
 *If additional third-party tools or dependencies not encapsulated in the container are required, you will find comprehensive setup and usage guides in the project documentation and supplementary materials.*
 
-> **Note:** If network restrictions or dependency-related issues are encountered during local Singularity image construction (e.g., failed `apt-get` installation, unavailable external repositories, or HPC-specific environment conflicts), we recommend using the pre-built Singularity image provided below:
-👉 [NanoCortex pre-built Singularity image](https://huggingface.co/qinixia/NanoCortex-singularity/blob/main/singularity/bot.sif)
-The distributed `bot.sif` container already includes all required dependencies and has been validated for stable execution across multiple environments, allowing users to bypass local environment setup and container build procedures.
+> **Note:** If network restrictions or dependency-related issues are encountered during local Singularity image construction (e.g., failed `apt-get` installation, unavailable external repositories, or HPC-specific environment conflicts).
 
 ### Step 5: start to use NanoCortex
 
