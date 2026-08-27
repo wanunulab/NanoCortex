@@ -1,0 +1,844 @@
+{
+    "basecaller": {
+        "required": {
+            "model": {
+                "description": "REQUIRED POSITIONAL ARGUMENT. Select the model type: fast, sup, or hac. The choice depends on whether base modification (mods) detection is needed:\n\n- If the user does **not** need mod calling (no detection of base modifications), it is recommended to use **hac** or **fast** models. The main difference between these is speed versus accuracy, so clarify user preference.\n- If the user **does** require mod calling (base modification detection), the **sup** model must be used.\n\nAlways confirm the user's needs before generating the command, and help select the appropriate model type (fast, hac, or sup).",
+                "category": "input",
+                "type": "string"
+            },
+            "data": {
+                "description": "REQUIRED POSITIONAL ARGUMENT: Directly provide the data directory or POD5 file path containing raw nanopore signal data to be basecalled. DO NOT prefix with '--data'. This must be a standalone value in the command line sequence.",
+                "category": "input",
+                "type": "file_or_dir"
+            }
+        },
+        "optional": {
+            "-x/--device": {
+                "description": "OPTIONAL NAMED OPTION: Specifies the compute device. Unlike positional arguments, this MUST be prefixed with '--device' or '-x'.",
+                "category": "compute",
+                "type": "choice",
+                "choices": ["auto", "cpu", "cuda:all", "cuda:<id>[,<id>...]"],
+                "default": "auto"
+            },
+            "--models-directory": {
+                "description": "Directory to search for existing basecalling models or download new models into.",
+                "category": "input",
+                "type": "dir",
+                "default": "."
+            },
+            "--bed-file": {
+                "description": "Optional BED file. If provided, overlaps between alignments and BED intervals are counted and recorded in BAM output using the 'bh' tag.",
+                "category": "input",
+                "type": "file"
+            },
+            "-r/--recursive": {
+                "description": "Recursively scan through subdirectories of the data path to find POD5 files.",
+                "category": "input",
+                "type": "flag"
+            },
+            "-l/--read-ids": {
+                "description": "Path to a text file containing a newline-delimited list of read IDs to basecall. If not set, all reads are basecalled.",
+                "category": "input",
+                "type": "file",
+                "default": ""
+            },
+            "-n/--max-reads": {
+                "description": "Maximum number of reads to basecall. 0 means process all available reads.",
+                "category": "general",
+                "type": "int",
+                "default": 0
+            },
+            "--resume-from": {
+                "description": "Resume basecalling from a previous HTS output file. Already completed read records in that file are not processed again.",
+                "category": "input",
+                "type": "file",
+                "default": ""
+            },
+            "--disable-read-splitting": {
+                "description": "Disable automatic splitting of reads into multiple segments.",
+                "category": "general",
+                "type": "flag"
+            },
+            "--min-qscore": {
+                "description": "Minimum mean Q-score threshold. Reads below this are either discarded or written to 'fail' outputs when --output-dir is set.",
+                "category": "output",
+                "type": "int",
+                "default": 0
+            },
+            "--emit-moves": {
+                "description": "Emit per-move information into the 'mv' SAM/BAM tag.",
+                "category": "output",
+                "type": "flag"
+            },
+            "--emit-fastq": {
+                "description": "Emit basecalled reads in FASTQ format.",
+                "category": "output",
+                "type": "flag"
+            },
+            "--emit-sam": {
+                "description": "Emit basecalled reads in SAM format.",
+                "category": "output",
+                "type": "flag"
+            },
+            "-o/--output-dir": {
+                "description": "Root output directory for basecalled reads and associated files. If not specified, results are written to stdout where applicable.",
+                "category": "output",
+                "type": "dir"
+            },
+            "--reference": {
+                "description": "Reference genome for read alignment.",
+                "category": "alignment",
+                "type": "file",
+                "default": ""
+            },
+            "--mm2-opts": {
+                "description": "Additional minimap2 options as a single string. For multiple arguments, quote the entire string.",
+                "category": "alignment",
+                "type": "string"
+            },
+            "--modified-bases": {
+                "description": "**MUST USE  sup in 'model' parameter model** These are the only supported options for modification(mod) basecalling. For exmaple: If you want to call m5C or 2OmeC, select 'm5C_2OmeC'. If you need to call multiple modifications that are not in the same choice (e.g. m5C and m6A_DRACH), you can combine different choices by separating them with **space**. To perform modcalling, you must use sup in 'model' parameter. If the modification you require is not listed here, it cannot be called.",
+                "category": "modified_bases",
+                "type": "choice_list",
+                "choices": [
+                    "m5C_2OmeC",
+                    "m6A_DRACH",
+                    "inosine_m6A_2OmeA",
+                    "pseU_2OmeU",
+                    "2OmeG"
+                ]
+            },
+            "--modified-bases-models": {
+                "description": "Comma-separated list of modified base model paths corresponding to the requested modified base codes.",
+                "category": "modified_bases",
+                "type": "string",
+                "default": ""
+            },
+            "--modified-bases-threshold": {
+                "description": "Minimum predicted modification probability (0–1) required to emit a modified base call in all-context models.",
+                "category": "modified_bases",
+                "type": "float"
+            },
+            "--modified-bases-batchsize": {
+                "description": "Batch size used for modified base models during inference.",
+                "category": "modified_bases",
+                "type": "int"
+            },
+            "--kit-name": {
+                "description": "Enable barcoding using the given kit name. Controls which barcodes and trimming rules are applied.",
+                "category": "barcoding",
+                "type": "choice",
+                "choices": ["EXP-NBD103", "EXP-NBD104", "EXP-NBD114", "EXP-NBD114-24", "EXP-NBD196", "EXP-PBC001", "EXP-PBC096", "SQK-16S024", "SQK-16S114-24", "SQK-DRB004-24", "SQK-LWB001", "SQK-MAB114-24", "SQK-MLK111-96-XL", "SQK-MLK114-96-XL", "SQK-NBD111-24", "SQK-NBD111-96", "SQK-NBD114-24", "SQK-NBD114-96", "SQK-PBK004", "SQK-PCB109", "SQK-PCB110", "SQK-PCB111-24", "SQK-PCB114-24", "SQK-RAB201", "SQK-RAB204", "SQK-RBK001", "SQK-RBK004", "SQK-RBK110-96", "SQK-RBK111-24", "SQK-RBK111-96", "SQK-RBK114-24", "SQK-RBK114-96", "SQK-RLB001", "SQK-RPB004", "SQK-RPB114-24", "TWIST-16-UDI", "TWIST-96A-UDI", "VSK-PTC001", "VSK-VMK001", "VSK-VMK004", "VSK-VPS001"],
+                "default": ""
+            },
+            "--sample-sheet": {
+                "description": "Path to a sample sheet describing barcodes and sample assignments.",
+                "category": "barcoding",
+                "type": "file",
+                "default": ""
+            },
+            "--barcode-both-ends": {
+                "description": "Require both ends of a read to contain valid barcodes for double-ended barcoding kits.",
+                "category": "barcoding",
+                "type": "flag"
+            },
+            "--barcode-arrangement": {
+                "description": "Path to a file describing custom barcode arrangement. Requires --kit-name.",
+                "category": "barcoding",
+                "type": "file"
+            },
+            "--barcode-sequences": {
+                "description": "Path to a file with custom barcode sequences. Requires --kit-name and --barcode-arrangement.",
+                "category": "barcoding",
+                "type": "file"
+            },
+            "--primer-sequences": {
+                "description": "Path to FASTA file with custom primer sequences, or the name of a supported third‑party primer set (e.g. 10X_Genomics).",
+                "category": "trimming",
+                "type": "string"
+            },
+            "--no-trim": {
+                "description": "Disable trimming of barcodes, adapters and primers. When not set, all three are trimmed by default.",
+                "category": "trimming",
+                "type": "flag"
+            },
+            "--trim": {
+                "description": "Specify what to trim. 'all' trims adapters, primers and barcodes; 'adapters' trims only adapters; 'none' disables trimming (equivalent to --no-trim). Only applies to DNA; RNA adapters are always trimmed.",
+                "category": "trimming",
+                "type": "choice",
+                "choices": ["", "all", "adapters", "none"],
+                "default": ""
+            },
+            "--estimate-poly-a": {
+                "description": "Enable estimation of poly(A)/poly(T) tail lengths (beta feature), mainly for cDNA and dRNA use cases.",
+                "category": "polyA",
+                "type": "flag"
+            },
+            "--poly-a-config": {
+                "description": "Configuration file to adjust default behaviour for poly(A)/poly(T) tail length estimation.",
+                "category": "polyA",
+                "type": "file",
+                "default": ""
+            },
+            "-b/--batchsize": {
+                "description": "Number of chunks per inference batch. 0 lets dorado automatically choose an optimal batch size.",
+                "category": "compute",
+                "type": "int",
+                "default": 0
+            }
+        }
+    },
+    "summary": {
+        "required": {
+            "reads": {
+                "description": "Directly input SAM/BAM file produced by dorado basecaller to summarize.",
+                "category": "input",
+                "type": "file"
+            }
+        },
+        "optional": {
+            "-s/--separator": {
+                "description": "Field separator to use in the summary output.",
+                "category": "output",
+                "type": "string",
+                "default": "\\t"
+            }
+        }
+    },
+    "download": {
+        "required": {},
+        "optional": {
+            "--model": {
+                "description": "Name of the model to download. Use 'all' to download all available models.",
+                "category": "general",
+                "type": "string",
+                "default": "all"
+            },
+            "--models-directory": {
+                "description": "Directory into which downloaded models will be written.",
+                "category": "output",
+                "type": "dir",
+                "default": "."
+            },
+            "--list": {
+                "description": "List the available models for download in a human‑readable table.",
+                "category": "general",
+                "type": "flag"
+            },
+            "--list-yaml": {
+                "description": "List the available models for download as YAML to stdout.",
+                "category": "general",
+                "type": "flag"
+            },
+            "--list-structured": {
+                "description": "List the available models for download in a structured YAML format to stdout.",
+                "category": "general",
+                "type": "flag"
+            },
+            "--data": {
+                "description": "Path to POD5 data used for automatic selection of appropriate models.",
+                "category": "input",
+                "type": "file_or_dir",
+                "default": ""
+            },
+            "-r/--recursive": {
+                "description": "Recursively scan through subdirectories of --data when searching for POD5 files.",
+                "category": "input",
+                "type": "flag"
+            },
+            "--overwrite": {
+                "description": "Overwrite existing model files in the target directory if they already exist.",
+                "category": "output",
+                "type": "flag"
+            }
+        }
+    },
+    "correct": {
+        "required": {
+            "reads": {
+                "description": "Directly input FASTQ file containing reads to correct.",
+                "category": "input",
+                "type": "file"
+            }
+        },
+        "optional": {
+            "-t/--threads": {
+                "description": "Number of threads for processing. 0 uses all available threads.",
+                "category": "compute",
+                "type": "int",
+                "default": 0
+            },
+            "--infer-threads": {
+                "description": "Number of threads per device for inference.",
+                "category": "compute",
+                "type": "int",
+                "default": 3
+            },
+            "-x/--device": {
+                "description": "Compute device: 'auto', 'cpu', 'cuda:all' or 'cuda:<device_id>[,<device_id>...]'. 'auto' chooses CPU, Metal or CUDA based on availability.",
+                "category": "compute",
+                "type": "choice",
+                "choices": ["auto", "cpu", "cuda:all", "cuda:<id>[,<id>...]"],
+                "default": "auto"
+            },
+            "-m/--model-path": {
+                "description": "Path to correction model folder.",
+                "category": "input",
+                "type": "dir"
+            },
+            "-p/--from-paf": {
+                "description": "Path to PAF file with alignments. Skips alignment computation if provided.",
+                "category": "input",
+                "type": "file"
+            },
+            "--to-paf": {
+                "description": "Generate PAF alignments and skip consensus generation.",
+                "category": "output",
+                "type": "flag"
+            },
+            "--resume-from": {
+                "description": "Resume from a previously interrupted run. Requires a file with sequence headers in the first column (e.g. .fai index from previous output).",
+                "category": "input",
+                "type": "file",
+                "default": ""
+            },
+            "-b/--batch-size": {
+                "description": "Batch size for inference. 0 enables auto batch size detection.",
+                "category": "compute",
+                "type": "int",
+                "default": 0
+            },
+            "-i/--index-size": {
+                "description": "Size of index for mapping and alignment. Decrease to lower memory usage.",
+                "category": "compute",
+                "type": "string",
+                "default": "8G"
+            },
+            "--compute-num-blocks": {
+                "description": "Compute and return the number of index blocks that would be processed in a normal run.",
+                "category": "general",
+                "type": "flag"
+            },
+            "--run-block-id": {
+                "description": "ID of the index block to run. If specified, only this block will be processed.",
+                "category": "compute",
+                "type": "int"
+            }
+        }
+    },
+    "demux": {
+        "required": {
+            "-o/--output-dir": {
+                "description": "Directly input output folder for demultiplexed reads.",
+                "category": "output",
+                "type": "dir"
+            }
+        },
+        "optional": {
+            "reads": {
+                "description": "Input file or folder containing reads in any HTS format.",
+                "category": "input",
+                "type": "file_or_dir",
+                "default": ""
+            },
+            "-r/--recursive": {
+                "description": "Recursively search subfolders when reads argument is a directory.",
+                "category": "input",
+                "type": "flag"
+            },
+            "--kit-name": {
+                "description": "Barcoding kit name. Cannot be used with --no-classify.",
+                "category": "barcoding",
+                "type": "choice",
+                "choices": ["EXP-NBD103", "EXP-NBD104", "EXP-NBD114", "EXP-NBD114-24", "EXP-NBD196", "EXP-PBC001", "EXP-PBC096", "SQK-16S024", "SQK-16S114-24", "SQK-DRB004-24", "SQK-LWB001", "SQK-MAB114-24", "SQK-MLK111-96-XL", "SQK-MLK114-96-XL", "SQK-NBD111-24", "SQK-NBD111-96", "SQK-NBD114-24", "SQK-NBD114-96", "SQK-PBK004", "SQK-PCB109", "SQK-PCB110", "SQK-PCB111-24", "SQK-PCB114-24", "SQK-RAB201", "SQK-RAB204", "SQK-RBK001", "SQK-RBK004", "SQK-RBK110-96", "SQK-RBK111-24", "SQK-RBK111-96", "SQK-RBK114-24", "SQK-RBK114-96", "SQK-RLB001", "SQK-RPB004", "SQK-RPB114-24", "TWIST-16-UDI", "TWIST-96A-UDI", "VSK-PTC001", "VSK-VMK001", "VSK-VMK004", "VSK-VPS001"]
+            },
+            "--sample-sheet": {
+                "description": "Path to sample sheet file.",
+                "category": "barcoding",
+                "type": "file",
+                "default": ""
+            },
+            "--no-classify": {
+                "description": "Skip barcode classification. Only demux based on existing classification in reads. Cannot be used with --kit-name or --sample-sheet.",
+                "category": "barcoding",
+                "type": "flag"
+            },
+            "-t/--threads": {
+                "description": "Combined number of threads for barcoding and output generation. 0 uses all available threads.",
+                "category": "compute",
+                "type": "int",
+                "default": 0
+            },
+            "-n/--max-reads": {
+                "description": "Maximum number of reads to process. Mainly for debugging. 0 processes all reads.",
+                "category": "general",
+                "type": "int",
+                "default": 0
+            },
+            "-l/--read-ids": {
+                "description": "File with newline-delimited list of reads to demux.",
+                "category": "input",
+                "type": "file",
+                "default": ""
+            },
+            "--emit-fastq": {
+                "description": "Output in FASTQ format. Default is BAM.",
+                "category": "output",
+                "type": "flag"
+            },
+            "--emit-summary": {
+                "description": "Emit a summary file with primary alignment details for each read to the root of the output folder.",
+                "category": "output",
+                "type": "flag"
+            },
+            "--barcode-both-ends": {
+                "description": "Require both ends of a read to be barcoded for double-ended barcode kits.",
+                "category": "barcoding",
+                "type": "flag"
+            },
+            "--no-trim": {
+                "description": "Skip barcode trimming. Use this if input data is mapped and you want to preserve mapping information.",
+                "category": "trimming",
+                "type": "flag"
+            },
+            "--sort-bam": {
+                "description": "Sort BAM output files containing mapped reads. Requires --no-trim to be set.",
+                "category": "output",
+                "type": "flag"
+            },
+            "--barcode-arrangement": {
+                "description": "Path to file with custom barcode arrangement.",
+                "category": "barcoding",
+                "type": "file"
+            },
+            "--barcode-sequences": {
+                "description": "Path to file with custom barcode sequences.",
+                "category": "barcoding",
+                "type": "file"
+            }
+        }
+    },
+    "polish": {
+        "required": {
+            "in_aln_bam": {
+                "description": "Directly input aligned reads in BAM format.",
+                "category": "input",
+                "type": "file"
+            },
+            "in_draft_fastx": {
+                "description": "Directly input draft assembly for polishing in FASTA/FASTQ format.",
+                "category": "input",
+                "type": "file"
+            }
+        },
+        "optional": {
+            "-t/--threads": {
+                "description": "Number of threads for processing. 0 means unlimited.",
+                "category": "compute",
+                "type": "int",
+                "default": 0
+            },
+            "--infer-threads": {
+                "description": "Number of threads for inference.",
+                "category": "compute",
+                "type": "int",
+                "default": 2
+            },
+            "-x/--device": {
+                "description": "Compute device: 'auto', 'cpu', 'cuda:all' or 'cuda:<device_id>[,<device_id>...]'. 'auto' chooses CPU or CUDA based on availability.",
+                "category": "compute",
+                "type": "choice",
+                "choices": ["auto", "cpu", "cuda:all", "cuda:<id>[,<id>...]"],
+                "default": "auto"
+            },
+            "-o/--output-dir": {
+                "description": "Output directory. If not specified, output is written to stdout.",
+                "category": "output",
+                "type": "dir",
+                "default": ""
+            },
+            "--models-directory": {
+                "description": "Directory to search for existing models or download new models into.",
+                "category": "input",
+                "type": "dir"
+            },
+            "--bacteria": {
+                "description": "Optimize polishing for plasmids and bacterial genomes.",
+                "category": "general",
+                "type": "flag"
+            },
+            "-q/--qualities": {
+                "description": "Output with per-base quality scores (FASTQ).",
+                "category": "output",
+                "type": "flag"
+            },
+            "--vcf": {
+                "description": "Output a VCF file with variant calls to --output-dir if specified, otherwise to stdout.",
+                "category": "output",
+                "type": "flag"
+            },
+            "--gvcf": {
+                "description": "Output a gVCF file to --output-dir if specified, otherwise to stdout.",
+                "category": "output",
+                "type": "flag"
+            },
+            "--ambig-ref": {
+                "description": "Decode variants at ambiguous reference positions.",
+                "category": "general",
+                "type": "flag"
+            },
+            "-b/--batchsize": {
+                "description": "Batch size for inference.",
+                "category": "compute",
+                "type": "int",
+                "default": 16
+            },
+            "--draft-batchsize": {
+                "description": "Approximate batch size for processing input draft sequences.",
+                "category": "compute",
+                "type": "string",
+                "default": "200M"
+            },
+            "--window-len": {
+                "description": "Window size for calling consensus.",
+                "category": "compute",
+                "type": "int",
+                "default": 10000
+            },
+            "--window-overlap": {
+                "description": "Overlap length between windows.",
+                "category": "compute",
+                "type": "int",
+                "default": 1000
+            },
+            "--bam-chunk": {
+                "description": "Size of draft chunks to parse from the input BAM at a time.",
+                "category": "compute",
+                "type": "int",
+                "default": 1000000
+            },
+            "--bam-subchunk": {
+                "description": "Size of regions to split the bam_chunk into for parallel processing.",
+                "category": "compute",
+                "type": "int",
+                "default": 100000
+            },
+            "--no-fill-gaps": {
+                "description": "Do not fill gaps in consensus sequence with draft sequence.",
+                "category": "general",
+                "type": "flag"
+            },
+            "--fill-char": {
+                "description": "Use a designated character to fill gaps.",
+                "category": "general",
+                "type": "string"
+            },
+            "--regions": {
+                "description": "Process only these regions. Can be a path to a BED file or comma-separated Htslib-formatted regions (start is 1-based, end is inclusive).",
+                "category": "input",
+                "type": "string"
+            },
+            "--RG": {
+                "description": "Read group to select.",
+                "category": "input",
+                "type": "string",
+                "default": ""
+            },
+            "--ignore-read-groups": {
+                "description": "Ignore read groups in BAM file.",
+                "category": "input",
+                "type": "flag"
+            },
+            "--tag-name": {
+                "description": "Two-letter BAM tag name for filtering alignments during feature generation.",
+                "category": "input",
+                "type": "string",
+                "default": ""
+            },
+            "--tag-value": {
+                "description": "Value of the tag for filtering alignments during feature generation.",
+                "category": "input",
+                "type": "int",
+                "default": 0
+            },
+            "--tag-keep-missing": {
+                "description": "Keep alignments when tag is missing. If specified, overrides the same option in the model config.",
+                "category": "input",
+                "type": "flag"
+            },
+            "--min-mapq": {
+                "description": "Minimum mapping quality of input alignments. If specified, overrides the same option in the model config.",
+                "category": "input",
+                "type": "int"
+            },
+            "--min-depth": {
+                "description": "Sites with depth lower than this value will not be processed.",
+                "category": "compute",
+                "type": "int",
+                "default": 0
+            }
+        }
+    },
+    "trim": {
+        "required": {},
+        "optional": {
+            "reads": {
+                "description": "Path to file(s) with reads to trim. Can be in any HTS format. Can specify multiple files.",
+                "category": "input",
+                "type": "file_list"
+            },
+            "-t/--threads": {
+                "description": "Combined number of threads for adapter/primer detection and output generation. 0 uses all available threads.",
+                "category": "compute",
+                "type": "int",
+                "default": 0
+            },
+            "-n/--max-reads": {
+                "description": "Maximum number of reads to process. Mainly for debugging. 0 processes all reads.",
+                "category": "general",
+                "type": "int",
+                "default": 0
+            },
+            "-k/--sequencing-kit": {
+                "description": "Sequencing kit name to use for selecting adapters and primers to trim.",
+                "category": "trimming",
+                "type": "string"
+            },
+            "--primer-sequences": {
+                "description": "Path to FASTA file with custom primer sequences, or name of a supported 3rd-party primer set (e.g. 10X_Genomics).",
+                "category": "trimming",
+                "type": "string"
+            },
+            "-l/--read-ids": {
+                "description": "File with newline-delimited list of reads to trim.",
+                "category": "input",
+                "type": "file",
+                "default": ""
+            },
+            "--emit-fastq": {
+                "description": "Output in FASTQ format. Default is BAM.",
+                "category": "output",
+                "type": "flag"
+            },
+            "--no-trim-primers": {
+                "description": "Skip primer detection and trimming. Only adapters will be detected and trimmed.",
+                "category": "trimming",
+                "type": "flag"
+            }
+        }
+    },
+    "aligner": {
+        "required": {
+            "index": {
+                "description": "Directly input reference index in FASTA/FASTQ or minimap2 .mmi format.",
+                "category": "input",
+                "type": "file"
+            },
+            "reads": {
+                "description": "Directly input reads file or folder containing reads in any HTS format.",
+                "category": "input",
+                "type": "file_or_dir",
+                "default": ""
+            }
+        },
+        "optional": {
+            "-r/--recursive": {
+                "description": "If reads is a folder, recursively search subfolders for input files.",
+                "category": "input",
+                "type": "flag"
+            },
+            "-o/--output-dir": {
+                "description": "If specified, write output files to this folder; otherwise, write to stdout. Required when reads is a folder.",
+                "category": "output",
+                "type": "dir",
+                "default": ""
+            },
+            "--emit-summary": {
+                "description": "Emit a summary file containing details of the primary alignments for each read to the root of the output folder. Requires --output-dir.",
+                "category": "output",
+                "type": "flag"
+            },
+            "--bed-file": {
+                "description": "Optional BED file. If specified, overlaps between alignments and BED entries are counted and recorded in BAM output using the 'bh' read tag.",
+                "category": "alignment",
+                "type": "file",
+                "default": ""
+            },
+            "-t/--threads": {
+                "description": "Number of threads for alignment and BAM writing. 0 means unlimited.",
+                "category": "compute",
+                "type": "int",
+                "default": 0
+            },
+            "-n/--max-reads": {
+                "description": "Maximum number of reads to process (for debugging). 0 means unlimited.",
+                "category": "general",
+                "type": "int",
+                "default": 0
+            },
+            "--add-fastq-rg": {
+                "description": "Add FASTQ read group information as @RG header lines in the output BAM. Requires an initial pass over all input FASTQ files.",
+                "category": "alignment",
+                "type": "flag"
+            },
+            "--mm2-opts": {
+                "description": "Optional minimap2 options string. For multiple arguments, surround the entire string with double quotes.",
+                "category": "alignment",
+                "type": "string"
+            }
+        }
+    },
+    "variant": {
+        "required": {
+            "in_aln_bam": {
+                "description": "Directly input aligned reads in BAM format.",
+                "category": "input",
+                "type": "file"
+            },
+            "in_ref_fastx": {
+                "description": "Directly input reference sequences in FASTA/FASTQ format.",
+                "category": "input",
+                "type": "file"
+            }
+        },
+        "optional": {
+            "-t/--threads": {
+                "description": "Number of threads for processing. 0 means unlimited.",
+                "category": "compute",
+                "type": "int",
+                "default": 0
+            },
+            "--infer-threads": {
+                "description": "Number of threads for inference.",
+                "category": "compute",
+                "type": "int",
+                "default": 2
+            },
+            "-x/--device": {
+                "description": "Compute device: 'auto', 'cpu', 'cuda:all' or 'cuda:<device_id>[,<device_id>...]'. 'auto' chooses CPU or all CUDA GPUs based on availability.",
+                "category": "compute",
+                "type": "choice",
+                "choices": ["auto", "cpu", "cuda:all", "cuda:<id>[,<id>...]"],
+                "default": "auto"
+            },
+            "-o/--output-dir": {
+                "description": "Output directory. If not specified, output is written to stdout.",
+                "category": "output",
+                "type": "dir",
+                "default": ""
+            },
+            "-m/--model": {
+                "description": "Path to the variant calling model folder. 'auto' lets dorado choose an appropriate model.",
+                "category": "input",
+                "type": "string",
+                "default": "auto"
+            },
+            "--gvcf": {
+                "description": "Output a gVCF instead of a VCF.",
+                "category": "output",
+                "type": "flag"
+            },
+            "--ambig-ref": {
+                "description": "Decode variants at ambiguous reference positions.",
+                "category": "general",
+                "type": "flag"
+            },
+            "-b/--batchsize": {
+                "description": "Batch size for inference. 0 enables auto batch size detection.",
+                "category": "compute",
+                "type": "int",
+                "default": 10
+            },
+            "--ref-batchsize": {
+                "description": "Approximate batch size for processing input reference sequences.",
+                "category": "compute",
+                "type": "string",
+                "default": "200M"
+            },
+            "--window-len": {
+                "description": "Window size for processing.",
+                "category": "compute",
+                "type": "int",
+                "default": 10000
+            },
+            "--window-overlap": {
+                "description": "Overlap length between adjacent windows.",
+                "category": "compute",
+                "type": "int",
+                "default": 1000
+            },
+            "--bam-chunk": {
+                "description": "Size of reference chunks to parse from the input BAM at a time.",
+                "category": "compute",
+                "type": "int",
+                "default": 1000000
+            },
+            "--bam-subchunk": {
+                "description": "Size of regions to split the bam_chunk into for parallel processing.",
+                "category": "compute",
+                "type": "int",
+                "default": 100000
+            },
+            "--regions": {
+                "description": "Process only these regions. Can be a path to a BED file or a list of comma-separated Htslib-formatted regions (start is 1-based, end is inclusive).",
+                "category": "input",
+                "type": "string"
+            },
+            "--RG": {
+                "description": "Read group to select.",
+                "category": "input",
+                "type": "string",
+                "default": ""
+            },
+            "--ignore-read-groups": {
+                "description": "Ignore read groups in the BAM file.",
+                "category": "input",
+                "type": "flag"
+            },
+            "--tag-name": {
+                "description": "Two-letter BAM tag name for filtering alignments during feature generation.",
+                "category": "input",
+                "type": "string",
+                "default": ""
+            },
+            "--tag-value": {
+                "description": "Value of the tag for filtering alignments during feature generation.",
+                "category": "input",
+                "type": "int",
+                "default": 0
+            },
+            "--tag-keep-missing": {
+                "description": "Keep alignments when tag is missing. If specified, overrides the same option in the model config.",
+                "category": "input",
+                "type": "flag"
+            },
+            "--min-mapq": {
+                "description": "Minimum mapping quality of the input alignments. If specified, overrides the same option in the model config.",
+                "category": "input",
+                "type": "int"
+            },
+            "--min-depth": {
+                "description": "Sites with depth lower than this value will not be processed.",
+                "category": "compute",
+                "type": "int",
+                "default": 0
+            },
+            "--pass-qual-filter": {
+                "description": "Quality threshold for classifying variants as PASS.",
+                "category": "general",
+                "type": "int",
+                "default": 3
+            },
+            "--hp-tag": {
+                "description": "Use the HP tag from the input BAM file to load phasing information instead of computing it.",
+                "category": "phasing",
+                "type": "flag"
+            },
+            "--unphased": {
+                "description": "Deactivate phasing and output unphased variants.",
+                "category": "phasing",
+                "type": "flag"
+            }
+        }
+    }
+}
