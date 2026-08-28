@@ -1,4 +1,0 @@
-interface:
-  display_name: "NanoCortex"
-  short_description: "Portable agent workflows for nanopore analysis"
-  default_prompt: "Use $nanocortex to plan and validate this nanopore sequencing analysis."
