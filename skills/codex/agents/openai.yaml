@@ -1,0 +1,4 @@
+interface:
+  display_name: "NanoCortex"
+  short_description: "Nanopore and RNA workflows via Singularity on HPC"
+  default_prompt: "Use the NanoCortex Codex skill to complete this nanopore or RNA analysis with the existing Singularity environment."
