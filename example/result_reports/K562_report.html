@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>K562 Fusion Transcript Analysis Report</title><style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #7f8c8d;
+        }
+        .summary-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .summary-stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .stat {
+            text-align: center;
+            padding: 10px 20px;
+        }
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        .high-confidence {
+            background-color: #27ae60;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+        .medium-confidence {
+            background-color: #f39c12;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+        .low-confidence {
+            background-color: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+        .fusion-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .fusion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .fusion-name {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .read-bar {
+            background-color: #ecf0f1;
+            border-radius: 10px;
+            height: 25px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        .read-fill {
+            height: 100%;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            color: white;
+            font-weight: bold;
+        }
+        .reference {
+            background-color: #e8f4f8;
+            padding: 10px;
+            border-left: 4px solid #3498db;
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+        .warning {
+            background-color: #ffeaa7;
+            padding: 10px;
+            border-left: 4px solid #fdcb6e;
+            margin: 10px 0;
+        }
+        .gene-structure {
+            font-family: monospace;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        .bcr-color { color: #3498db; }
+        .abl-color { color: #e74c3c; }
+        .sequence {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            word-break: break-all;
+        }
+        .seq-bcr { color: #2980b9; font-weight: bold; }
+        .seq-abl { color: #c0392b; font-weight: bold; }
+        footer {
+            text-align: center;
+            color: #7f8c8d;
+            margin-top: 40px;
+            padding: 20px;
+            border-top: 1px solid #ecf0f1;
+        }
+        .tips {
+            background-color: #dfe6e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .tips-icon {
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+    
+.table-wrap{overflow-x:auto}td,th{overflow-wrap:anywhere}.sequence{line-height:1.8}.junction{background:#f1c40f;color:#111;font-weight:bold}th[scope=row]{width:25%;background:#edf3f8;color:#263d51}h3{color:#34495e}.warning{line-height:1.6}body{line-height:1.55}a{color:#17639b}@media(max-width:650px){body{padding:12px}.stat{padding:8px}.stat-number{font-size:2em}td,th{padding:9px;font-size:.9em}}</style></head><body><h1>K562 Fusion Transcript Analysis Report</h1>
+<p>Computational workflow demonstration using the known BCR::ABL1 fusion in K562. This report summarizes the entries and supporting-read counts supplied by the analysis; it does not establish new fusion discoveries.</p>
+<div class="summary-box"><h2 style="color:white;margin-top:0">Summary of displayed entries</h2><div class="summary-stats">
+<div class="stat"><div class="stat-number">16</div><div class="stat-label">Displayed candidate groups</div></div>
+<div class="stat"><div class="stat-number">26</div><div class="stat-label">Sum of reported isoform counts</div></div>
+<div class="stat"><div class="stat-number">481</div><div class="stat-label">Sum of supporting-read counts</div></div>
+<div class="stat"><div class="stat-number">231</div><div class="stat-label">BCR::ABL1 supporting-read count</div></div></div></div>
+<div class="warning"><strong>Evidence scope.</strong> Counts are reproduced from the supplied report, rather than recomputed from raw reads or FLAIR output. The sum of 481 is not the total number of reads in the sequencing library and is not established to represent unique molecules. The definition of supporting reads, cross-candidate read overlap, and deduplication status have not been verified. Literature recognition of BCR::ABL1 does not constitute experimental validation of this sample.</div>
+<h2>Fusion candidate summary</h2><p>Rows are candidate groups as displayed in the supplied report. Labels containing a chromosome rather than a gene retain unresolved partner assignments. No calibrated confidence scores or biological-validity classifications are assigned.</p>
+<div class="table-wrap"><table><thead><tr><th>Reported candidate group</th><th>Reported supporting reads</th><th>Reported isoforms</th><th>Interpretation status</th></tr></thead><tbody><tr><td>BCR::ABL1</td><td>231</td><td>1</td><td>Known fusion example</td></tr><tr><td>PIK3C3::chr18</td><td>124</td><td>4</td><td>Unvalidated candidate</td></tr><tr><td>BCR::chr9</td><td>38</td><td>1</td><td>Unvalidated candidate</td></tr><tr><td>ALDOC::chr17</td><td>20</td><td>3</td><td>Unvalidated candidate</td></tr><tr><td>LOC124905236::LRCH2</td><td>12</td><td>2</td><td>Unvalidated candidate</td></tr><tr><td>GSE1::ATXN1-AS1</td><td>12</td><td>3</td><td>Unvalidated candidate</td></tr><tr><td>ZFAND3::chr5</td><td>11</td><td>1</td><td>Unvalidated candidate</td></tr><tr><td>NUP214::XKR3</td><td>5</td><td>2</td><td>Unvalidated candidate</td></tr><tr><td>CCDC32::CBX3</td><td>4</td><td>1</td><td>Unvalidated candidate</td></tr><tr><td>LOC101928608::LOC112268317</td><td>4</td><td>1</td><td>Unvalidated candidate</td></tr><tr><td>C16orf87::ORC6</td><td>3</td><td>1</td><td>Unvalidated candidate</td></tr><tr><td>ZNF839::FAM239C</td><td>3</td><td>1</td><td>Unvalidated candidate</td></tr><tr><td>GUSBP16::GTF2H2C</td><td>3</td><td>1</td><td>Unvalidated candidate</td></tr><tr><td>NALF1::chr13</td><td>6</td><td>2</td><td>Unvalidated candidate</td></tr><tr><td>AHI1::chr6</td><td>3</td><td>1</td><td>Unvalidated candidate</td></tr><tr><td>RPL23AP53::LOC112268260</td><td>2</td><td>1</td><td>Unvalidated candidate</td></tr></tbody></table></div>
+<h2>BCR::ABL1 workflow example</h2><div class="fusion-card"><p><strong>Reported supporting reads:</strong> 231. <strong>Reported isoforms:</strong> 1.</p>
+<p>The BCR::ABL1 entry accounts for 48.0% of the sum of supporting-read counts displayed above. This proportion is not fusion abundance relative to the sequencing library, a cell fraction, or a molecular response measurement.</p>
+<h3>Reported transcript structure</h3><div class="gene-structure">BCR (5′ partner) → ABL1 (3′ partner)<br>BCR: chr22:23,603,698–23,713,276; 14 reported exons; 2,907 nt<br>ABL1: chr9:143,058,937–143,092,545; 10 reported exons; 5,303 nt</div>
+<p>These genomic spans and exon counts are retained as reported annotations. They have not been independently checked against the reference FASTA/GTF. Spans include intervening genomic sequence and are not transcript lengths.</p>
+<table><thead><tr><th>Partner</th><th>Reported RNA junction boundary</th><th>Reported strand</th></tr></thead><tbody><tr><td>BCR</td><td>chr22:23,713,276</td><td>+</td></tr><tr><td>ABL1</td><td>chr9:143,058,937</td><td>+</td></tr></tbody></table>
+<p>Coordinates are reproduced from the source report; their indexing convention was not specified. RNA junction boundaries do not identify the genomic DNA rearrangement breakpoint. No definitive exon-based subtype is assigned here because the original e13a2 label is inconsistent with other sequence/annotation information and requires reference-transcript verification.</p>
+<h3>Reported junction sequence: 100 nt on each side</h3><p>5′→3′, represented with the DNA alphabet as in the source report. The separator marks the proposed RNA fusion junction and is not a nucleotide.</p><div class="sequence"><span class="seq-bcr">ATTCCGCTGACCATCAATAAGGAAGATGATGAGTCTCCGGGGCTCTATGGGTTTCTGAATGTCATCGTCCACTCAGCCACTGGATTTAAGCAGAGTTCAA</span><span class="junction"> | </span><span class="seq-abl">AAGCCCTTCAGCGGCCAGTAGCATCTGACTTTGAGCCTCAGGGTCTGAGTGAAGCCGCTCGTTGGAACTCCAAGGAAAACCTTCTCGCTGGACCCAGTGA</span></div><p><span class="seq-bcr">Blue: BCR, positions 1–100.</span> <span class="seq-abl">Red: ABL1, positions 101–200.</span> This supplied sequence has not been independently compared with read-level junction alignments.</p>
+<h3>Sequence window used for the manuscript structure panel</h3><p>The panel uses the last 50 nt of the BCR sequence above and the first 50 nt of the ABL1 sequence, yielding a 100 nt fusion sequence. Its junction is between positions 50 and 51.</p><div class="sequence"><span class="seq-bcr">GTTTCTGAATGTCATCGTCCACTCAGCCACTGGATTTAAGCAGAGTTCAA</span><span class="junction"> | </span><span class="seq-abl">AAGCCCTTCAGCGGCCAGTAGCATCTGACTTTGAGCCTCAGGGTCTGAGT</span></div>
+<p>RNA secondary structures derived from these windows are computational predictions. They are not experimental evidence for fusion validity or for an in-cell structural or functional effect.</p>
+<h3>Literature context</h3><p>BCR::ABL1 is a previously characterized fusion in K562. Salmon et al. used K562 as an e14a2-positive reference cell line. This contextual observation does not resolve the subtype or validate the junction in the present dataset.</p><div class="reference">Salmon et al. (2022). <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9252903/" target="_blank" rel="noopener noreferrer">Impact of BCR::ABL1 transcript type on RT-qPCR amplification performance and molecular response to therapy</a>. <em>Leukemia</em> 36, 1879–1886. DOI: 10.1038/s41375-022-01612-2.</div></div>
+<h2>Other computational candidates</h2><div class="fusion-card"><p>The remaining 15 displayed groups are retained for transparency as unvalidated computational candidates. Read support alone does not distinguish genuine fusion transcripts from alignment ambiguity, library artifacts, readthrough transcription, or unresolved annotation.</p><p>No claims of novelty, oncogenic activity, clinical significance, specific alternative BCR::ABL1 rearrangements, or definitive artifacts are made for these entries. A known fusion involving one partner does not establish the reported partner combination.</p><p>For biological follow-up, candidate-specific read alignments and reference annotations should be examined; junctional RT-PCR with Sanger sequencing can provide orthogonal transcript-level evidence. No such validation results are presented here.</p></div>
+<h2>Methods and provenance</h2><table><tr><th scope="row">Sample label</th><td>K562, as stated in the supplied report</td></tr><tr><th scope="row">Analysis</th><td>FLAIR fusion analysis, as stated in the supplied report</td></tr><tr><th scope="row">Reference assembly</th><td>T2T-CHM13v2.0, as stated in the supplied report; reference FASTA and annotation files were not supplied for this report revision</td></tr><tr><th scope="row">Source output filenames</th><td>flair.fusion.gtf; flair.fusion.counts.tsv; flair.fusion.fusions.isoforms.fa (listed in the supplied report; not inspected here)</td></tr><tr><th scope="row">Reproducibility information not supplied</th><td>FLAIR version, command-line parameters, annotation release, sample accession, number of libraries, total sequenced reads, total aligned reads, and read-level filtering/deduplication criteria</td></tr><tr><th scope="row">Orthogonal validation</th><td>No junctional PCR/Sanger or other orthogonal validation results were supplied with this report</td></tr></table>
+<p><strong>Scope of revision:</strong> This document was edited from the supplied HTML; the analysis pipeline was not rerun. The original header reported 19 gene pairs and 2 high-confidence entries, whereas its table contained 16 groups and only one HIGH-labelled row. The revised summary is calculated from the 16 displayed rows; it does not assert that these exhaust the underlying call set. The isoform-count sum remains 26. Previous HIGH/MEDIUM/LOW labels were removed because no validated classification framework or read-level quality evidence was supplied.</p>
+<footer>Source report dated October 13, 2026. Editorial revision: October 14, 2026.<br>For computational workflow demonstration; no independent experimental confirmation is presented.</footer></body></html>
